@@ -27,41 +27,43 @@ Queries:
 
 
 create table member_master
-( membercode number(6) primary key,
+( membercode VARCHAR(6) primary key,
   memberType varchar(20),
   name varchar(20),
-  no_of_book_issued number(2)
+  no_of_book_issued number(2),
+CONSTRAINT membercode_c  CHECK (membercode  like 'M%')
 );
 
-insert into member_master values('101','Student','Prashant',2);
-insert into member_master values('102','Teacher','Nikita',5);
-insert into member_master values('103','Student','Prashant',1);
-insert into member_master values('104','Student','Jannet',2);
-insert into member_master values('105','Teacher','Louis',6);
-insert into member_master values('106','Teacher','Neha',10);
-insert into member_master values('107','Teacher','Archana',10);
-insert into member_master values('108','Student','kiya',10);
-insert into member_master values('109','Student','Riya',10);
-insert into member_master values('1010','Student','Arun',10);
+insert into member_master values('M01','Student','Prashant',2);
+insert into member_master values('M02','Teacher','Nikita',5);
+insert into member_master values('M03','Student','Prashant',1);
+insert into member_master values('M04','Student','Jannet',2);
+insert into member_master values('M05','Teacher','Louis',6);
+insert into member_master values('M06','Teacher','Neha',10);
+insert into member_master values('M07','Teacher','Archana',10);
+insert into member_master values('M08','Student','kiya',10);
+insert into member_master values('M09','Student','Riya',10);
+insert into member_master values('M10','Student','Arun',10);
 -----------------------------------------------------------------------------------------------------------------------
 create table Book_master
-( bookCode number(6) primary key,
+( bookCode varchar(6) primary key,
   title varchar(50),
   author varchar(30),
   availablebooks number(30),
-  isBook_issueable varchar(10)
+  isBook_issueable varchar(10),
+CONSTRAINT bookcode_c  CHECK (bookCode like 'B%')
 );
 
-insert into Book_master values('501','Wings of fire','A.P.J Abdul Kalam',50,'yes');
-insert into Book_master values('502','Java','k.kishor',160,'yes');
-insert into Book_master values('503','C','Brian W.kernighan',40,'yes');
-insert into Book_master values('504','C++','Anuradha senna',50,'yes');
-insert into Book_master values('505','Python','Kavita patil',55,'yes');
-insert into Book_master values('506','Hibernate','A.K suryavanshi',100,'No');
-insert into Book_master values('507','Networking','Avinash shergil',150,'No');
-insert into Book_master values('508','Data structures','A.P Kedar',250,'yes');
-insert into Book_master values('509','Java Edition10','Bennie Denis',530,'yes');
-insert into Book_master values('5010','Electronics','Blake sen',350,'yes');
+insert into Book_master values('B501','Relational DBMS','Anuradha patil',50,'yes');
+insert into Book_master values('B502','Java','k.kishor',160,'yes');
+insert into Book_master values('B503','C','Brian W.kernighan',40,'yes');
+insert into Book_master values('B504','C++','Anuradha senna',50,'yes');
+insert into Book_master values('B505','Python','Kavita patil',55,'yes');
+insert into Book_master values('B506','Hibernate','A.K suryavanshi',100,'No');
+insert into Book_master values('B507','Networking','Avinash shergil',150,'No');
+insert into Book_master values('B508','Data structures','A.P Kedar',250,'yes');
+insert into Book_master values('B509','Java Edition10','Bennie Denis',530,'yes');
+insert into Book_master values('B5010','Electronics','Blake sen',350,'yes');
 -----------------------------------------------------------------------------------------------------------------------------
 CREATE SEQUENCE serialnumber
 start with 100
@@ -73,22 +75,25 @@ create table Book_issue
 (  serialnumber number(6) primary key,
    issue_date date default sysdate,
    due_date_of_return date, 
-   membercode number(6),
-   bookCode number(6),
+   membercode varchar(6),
+   bookCode varchar(6),
  CONSTRAINT membercode_fk FOREIGN KEY(membercode) REFERENCES member_master(membercode),
  CONSTRAINT bookCode_fk FOREIGN KEY(bookCode) REFERENCES Book_master(bookCode)
 );
 
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('2-09-2020','dd-mm-yyyy'),109,501);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('12-10-2020','dd-mm-yyyy'),105,509);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('23-12-2020','dd-mm-yyyy'),101,5010);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('27-09-2020','dd-mm-yyyy'),103,505);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('26-11-2020','dd-mm-yyyy'),106,504);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('23-12-2020','dd-mm-yyyy'),102,506);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('25-10-2020','dd-mm-yyyy'),108,503);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('15-09-2020','dd-mm-yyyy'),104,507);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('19-11-2020','dd-mm-yyyy'),107,502);
-insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('14-10-2020','dd-mm-yyyy'),1010,508);
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('2-09-2020','dd-mm-yyyy'),'M09','B501');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('12-10-2020','dd-mm-yyyy'),'M05','B509');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('23-12-2020','dd-mm-yyyy'),'M01','B5010');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('27-09-2020','dd-mm-yyyy'),'M03','B505');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('26-11-2020','dd-mm-yyyy'),'M06','B504');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('23-12-2020','dd-mm-yyyy'),'M02','B506');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('25-10-2020','dd-mm-yyyy'),'M08','B503');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('15-09-2020','dd-mm-yyyy'),'M04','B507');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('19-11-2020','dd-mm-yyyy'),'M07','B502');
+insert into Book_issue values(serialnumber.nextVal,SYSDATE,to_date('14-10-2020','dd-mm-yyyy'),'M10','B508');
+
+	
+
 
 	
 
